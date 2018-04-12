@@ -7,7 +7,7 @@ import cz.fi.muni.TACOS.persistence.enums.UserRole;
 import cz.fi.muni.TACOS.service.AbstractEntityService;
 import cz.fi.muni.TACOS.service.UserService;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Pavel Vyskocil <vyskocilpavel@muni.cz>
  */
-@Stateless
+@ApplicationScoped
 public class UserServiceImpl extends AbstractEntityService<User> implements UserService {
 
 

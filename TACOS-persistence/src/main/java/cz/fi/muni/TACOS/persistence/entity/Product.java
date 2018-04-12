@@ -40,9 +40,8 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @NotNull
     @DecimalMin("0.00")
-    private BigDecimal price;
+    private BigDecimal minimalPrice;
 
     @NotNull
     @Column(nullable = false)
@@ -88,12 +87,12 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getMinimalPrice() {
+        return minimalPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setMinimalPrice(BigDecimal minimalPrice) {
+        this.minimalPrice = minimalPrice;
     }
 
     public Set<Template> getTemplates() {
@@ -145,13 +144,13 @@ public class Product implements Serializable {
 
         return Objects.equals(getName(), product.getName()) &&
                 Objects.equals(getDescription(), product.getDescription()) &&
-                Objects.equals(getPrice(), product.getPrice());
+                Objects.equals(getMinimalPrice(), product.getMinimalPrice());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getName(), getDescription(), getPrice());
+        return Objects.hash(getName(), getDescription(), getMinimalPrice());
     }
 
     @Override
@@ -160,7 +159,7 @@ public class Product implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
+                ", minimalPrice=" + minimalPrice +
                 '}';
     }
 

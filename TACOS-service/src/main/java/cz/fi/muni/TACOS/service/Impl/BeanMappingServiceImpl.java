@@ -1,9 +1,10 @@
 package cz.fi.muni.TACOS.service.Impl;
 
 import cz.fi.muni.TACOS.service.BeanMappingService;
+import cz.fi.muni.TACOS.service.annotations.TacosMapper;
 import org.dozer.Mapper;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,13 +13,13 @@ import java.util.List;
 /**
  * @author Pavel Vyskocil <vyskocilpavel@muni.cz>
  */
-@Stateless
+@ApplicationScoped
 public class BeanMappingServiceImpl implements BeanMappingService {
 
 	private Mapper dozer;
 
 	@Inject
-	public BeanMappingServiceImpl(Mapper dozer) {
+	public BeanMappingServiceImpl(@TacosMapper Mapper dozer) {
 		this.dozer = dozer;
 	}
 

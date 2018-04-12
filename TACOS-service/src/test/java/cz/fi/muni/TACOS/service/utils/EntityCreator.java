@@ -112,7 +112,7 @@ public final class EntityCreator {
 		product.setId(1L);
 		product.setDescription("desc");
 		product.setName("productOne");
-		product.setPrice(BigDecimal.valueOf(10));
+		product.setMinimalPrice(BigDecimal.valueOf(10));
 		return product;
 	}
 
@@ -121,7 +121,7 @@ public final class EntityCreator {
 		product.setId(2L);
 		product.setName("productName");
 		product.setDescription("Description");
-		product.setPrice(BigDecimal.valueOf(10.0));
+		product.setMinimalPrice(BigDecimal.valueOf(10.0));
 		return product;
 	}
 

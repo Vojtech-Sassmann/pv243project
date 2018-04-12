@@ -3,6 +3,7 @@ package cz.fi.muni.TACOS.service;
 import cz.fi.muni.TACOS.persistence.entity.AttributeCategory;
 import cz.fi.muni.TACOS.persistence.entity.Template;
 
+
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */

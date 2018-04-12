@@ -6,7 +6,7 @@ import cz.fi.muni.TACOS.persistence.entity.CreatedProduct;
 import cz.fi.muni.TACOS.service.AbstractEntityService;
 import cz.fi.muni.TACOS.service.CreatedProductService;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 /**
@@ -14,7 +14,7 @@ import javax.inject.Inject;
  *
  * @author Pavel Vyskocil <vyskocilpavel@muni.cz>
  */
-@Stateless
+@ApplicationScoped
 public class CreatedProductServiceImpl extends AbstractEntityService<CreatedProduct> implements CreatedProductService {
 
 	private final CreatedProductDao createdProductDao;

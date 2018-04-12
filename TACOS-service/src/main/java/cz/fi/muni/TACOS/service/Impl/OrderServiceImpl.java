@@ -7,7 +7,7 @@ import cz.fi.muni.TACOS.persistence.enums.OrderState;
 import cz.fi.muni.TACOS.service.AbstractEntityService;
 import cz.fi.muni.TACOS.service.OrderService;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Pavel Vyskocil <vyskocilpavel@muni.cz>
  */
-@Stateless
+@ApplicationScoped
 public class OrderServiceImpl extends AbstractEntityService<Order> implements OrderService {
 
     private final OrderDao orderDao;

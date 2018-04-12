@@ -6,13 +6,13 @@ import cz.fi.muni.TACOS.persistence.entity.ProductCategory;
 import cz.fi.muni.TACOS.service.AbstractEntityService;
 import cz.fi.muni.TACOS.service.ProductCategoryService;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
-@Stateless
+@ApplicationScoped
 public class ProductCategoryServiceImpl extends AbstractEntityService<ProductCategory> implements ProductCategoryService {
 
     private final ProductCategoryDao productCategoryDao;

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public class Attribute implements Serializable {
     private String name;
 
     @NotNull
+    @DecimalMin("0.00")
     @Column(nullable = false)
     private BigDecimal price;
 

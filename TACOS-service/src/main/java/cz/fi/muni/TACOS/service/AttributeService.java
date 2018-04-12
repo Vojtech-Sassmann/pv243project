@@ -7,4 +7,11 @@ import cz.fi.muni.TACOS.persistence.entity.Attribute;
  */
 public interface AttributeService extends EntityService<Attribute> {
 
+    /**
+     * Updates attribute with given id by values from newVersion
+     *
+     * @param id id of attribute
+     * @param newVersion newVersion
+     */
+    void updateAttribute(Long id, Attribute newVersion);
 }

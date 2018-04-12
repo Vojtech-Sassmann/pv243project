@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -29,6 +31,9 @@ public class AttributeCategory implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @DecimalMin("0.00")
+    private BigDecimal minimalPrice;
+
     @ManyToMany
     private Set<Attribute> attributes = new HashSet<>();
 
@@ -37,6 +42,14 @@ public class AttributeCategory implements Serializable {
 
     public AttributeCategory() {
 
+    }
+
+    public BigDecimal getMinimalPrice() {
+        return minimalPrice;
+    }
+
+    public void setMinimalPrice(BigDecimal minimalPrice) {
+        this.minimalPrice = minimalPrice;
     }
 
     public Long getId() {
@@ -100,7 +113,7 @@ public class AttributeCategory implements Serializable {
         return "AttributeCategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", attributes=" + attributes +
+                ", minimalPrice=" + minimalPrice +
                 '}';
     }
 }

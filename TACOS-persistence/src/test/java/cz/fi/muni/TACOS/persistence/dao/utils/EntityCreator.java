@@ -71,7 +71,7 @@ public final class EntityCreator {
         Product product = new Product();
         product.setName("productName");
         product.setDescription("Description");
-        product.setPrice(BigDecimal.valueOf(10.0));
+        product.setMinimalPrice(BigDecimal.valueOf(10.0));
         productDao.create(product);
         return product;
     }
@@ -80,7 +80,7 @@ public final class EntityCreator {
         Product product = new Product();
         product.setName("name");
         product.setDescription("Description");
-        product.setPrice(BigDecimal.valueOf(10.0));
+        product.setMinimalPrice(BigDecimal.valueOf(10.0));
         productDao.create(product);
         return product;
     }
@@ -126,7 +126,7 @@ public final class EntityCreator {
         Product product = new Product();
         product.setDescription("desc");
         product.setName("productOne");
-        product.setPrice(BigDecimal.valueOf(10));
+        product.setMinimalPrice(BigDecimal.valueOf(10));
         productDao.create(product);
         return product;
     }
