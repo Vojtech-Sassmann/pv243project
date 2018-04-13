@@ -141,16 +141,13 @@ public class Product implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-
-        return Objects.equals(getName(), product.getName()) &&
-                Objects.equals(getDescription(), product.getDescription()) &&
-                Objects.equals(getMinimalPrice(), product.getMinimalPrice());
+        return Objects.equals(getName(), product.getName());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getName(), getDescription(), getMinimalPrice());
+        return Objects.hash(getName());
     }
 
     @Override

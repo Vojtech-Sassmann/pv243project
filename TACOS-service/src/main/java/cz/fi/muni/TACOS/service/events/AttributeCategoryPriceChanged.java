@@ -1,22 +1,21 @@
 package cz.fi.muni.TACOS.service.events;
 
-import cz.fi.muni.TACOS.persistence.entity.AttributeCategory;
-
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
 public class AttributeCategoryPriceChanged {
 
-    private final AttributeCategory attributeCategory;
+    private final Set<Long> affectedTemplates;
 
-    public AttributeCategoryPriceChanged(AttributeCategory attributeCategory) {
-        this.attributeCategory = attributeCategory;
+    public AttributeCategoryPriceChanged(Set<Long> affectedTemplates) {
+        this.affectedTemplates = affectedTemplates;
     }
 
-    public AttributeCategory getAttributeCategory() {
-        return attributeCategory;
+    public Set<Long> getAffectedTemplates() {
+        return affectedTemplates;
     }
 
     @Override
@@ -24,19 +23,19 @@ public class AttributeCategoryPriceChanged {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttributeCategoryPriceChanged that = (AttributeCategoryPriceChanged) o;
-        return Objects.equals(attributeCategory, that.attributeCategory);
+        return Objects.equals(affectedTemplates, that.affectedTemplates);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(attributeCategory);
+        return Objects.hash(affectedTemplates);
     }
 
     @Override
     public String toString() {
         return "AttributeCategoryPriceChanged{" +
-                "attributeCategory=" + attributeCategory +
+                "affectedTemplates=" + affectedTemplates +
                 '}';
     }
 }

@@ -1,7 +1,6 @@
 package cz.fi.muni.TACOS.persistence.dao;
 
 import cz.fi.muni.TACOS.persistence.entity.ProductCategory;
-import cz.fi.muni.TACOS.persistence.entity.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,6 +16,21 @@ public class ProductCategoryDaoImpl extends AbstractDao<ProductCategory> impleme
 
     @PersistenceContext(unitName = "primary")
     private EntityManager em;
+
+    @Override
+    public void delete(ProductCategory entity) {
+        ProductCategory parentCategory = entity.getParentCategory();
+
+        for (ProductCategory category : entity.getSubCategories()) {
+            delete(category);
+        }
+
+        if (parentCategory != null) {
+            parentCategory.removeSubCategory(entity);
+        }
+
+        super.delete(entity);
+    }
 
     @Override
     public ProductCategory findByName(String name) {

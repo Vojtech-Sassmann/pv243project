@@ -45,7 +45,6 @@ public class Attribute implements Serializable {
     @Column(nullable = false)
     private ProductAttributeStatus status;
 
-    @NotEmpty
     @ManyToMany(mappedBy = "attributes")
     private Set<AttributeCategory> attributeCategories = new HashSet<>();
 

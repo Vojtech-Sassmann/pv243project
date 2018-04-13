@@ -2,6 +2,7 @@ package cz.fi.muni.TACOS.service.Impl;
 
 import cz.fi.muni.TACOS.persistence.dao.AttributeDao;
 import cz.fi.muni.TACOS.persistence.entity.Attribute;
+import cz.fi.muni.TACOS.persistence.entity.AttributeCategory;
 import cz.fi.muni.TACOS.service.AbstractEntityService;
 import cz.fi.muni.TACOS.service.AttributeService;
 import cz.fi.muni.TACOS.service.events.AttributePriceChanged;
@@ -9,6 +10,8 @@ import cz.fi.muni.TACOS.service.events.AttributePriceChanged;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
@@ -31,7 +34,18 @@ public class AttributeServiceImpl extends AbstractEntityService<Attribute> imple
     public void create(Attribute entity) {
         super.create(entity);
 
-        attributePriceChangedEvent.fire(new AttributePriceChanged(entity));
+        attributePriceChangedEvent.fire(new AttributePriceChanged(entity.getAttributeCategories().stream()
+                .map(AttributeCategory::getId)
+                .collect(Collectors.toSet())));
+    }
+
+    @Override
+    public void delete(Attribute entity) {
+        Set<Long> affectedCategories = entity.getAttributeCategories().stream()
+                .map(AttributeCategory::getId)
+                .collect(Collectors.toSet());
+        super.delete(entity);
+        attributePriceChangedEvent.fire(new AttributePriceChanged(affectedCategories));
     }
 
     @Override
@@ -46,7 +60,9 @@ public class AttributeServiceImpl extends AbstractEntityService<Attribute> imple
         }
         if (newVersion.getPrice() != null && !newVersion.getPrice().equals(attribute.getPrice())) {
             attribute.setPrice(newVersion.getPrice());
-            attributePriceChangedEvent.fire(new AttributePriceChanged(attribute));
+            attributePriceChangedEvent.fire(new AttributePriceChanged(attribute.getAttributeCategories().stream()
+                    .map(AttributeCategory::getId)
+                    .collect(Collectors.toSet())));
         }
     }
 }

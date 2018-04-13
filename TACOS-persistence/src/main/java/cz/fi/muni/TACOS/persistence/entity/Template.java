@@ -99,14 +99,14 @@ public class Template implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Template)) return false;
-        Template that = (Template) o;
-        return Objects.equals(getName(), that.getName()) &&
-                Objects.equals(getAttributeCategories(), that.getAttributeCategories());
+        Template template = (Template) o;
+        return Objects.equals(getName(), template.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getAttributeCategories());
+
+        return Objects.hash(getName());
     }
 
     @Override

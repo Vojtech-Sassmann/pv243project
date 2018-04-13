@@ -13,7 +13,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -36,33 +37,45 @@ public class ProductServiceImpl extends AbstractEntityService<Product> implement
     @Override
     public void addTemplate(Product product, Template template) {
         product.addTemplate(template);
+        recalculatePrice(product);
     }
 
     @Override
     public void removeTemplate(Product product, Template template) {
         product.removeTemplate(template);
+        recalculatePrice(product);
     }
 
+    private Set<Product> getProductsById(Set<Long> ids) {
+        Set<Product> products = new HashSet<>();
+        for (Long id : ids) {
+            products.add(findById(id));
+        }
+        return products;
+    }
 
     private void recalculatePrices(@Observes TemplatePriceChanged event) {
-        final Template template = event.getTemplate();
-        List<Product> products = getAll();
-
-        products = products.stream()
-                .filter(p -> p.getTemplates()
-                        .stream()
-                        .map(Template::getId)
-                        .collect(Collectors.toList())
-                        .contains(template.getId()))
-                .collect(Collectors.toList());
-
-        products.forEach(p -> recalculatePrice(p, template.getMinimalPrice()));
+        Set<Product> templates = getProductsById(event.getAffectedProducts());
+        templates.forEach(this::recalculatePrice);
     }
 
-    private void recalculatePrice(Product product, BigDecimal potentialMinimum) {
+    private void recalculatePrice(Product product) {
         BigDecimal current = product.getMinimalPrice();
-        if (current == null || current.compareTo(potentialMinimum) > 0) {
-            product.setMinimalPrice(potentialMinimum);
+        BigDecimal newMinimum = null;
+
+        for(BigDecimal price : product.getTemplates().stream()
+                .map(Template::getMinimalPrice)
+                .collect(Collectors.toList())) {
+            if (newMinimum == null || (price != null && price.compareTo(newMinimum) < 0)) {
+                newMinimum = price;
+            }
+        }
+
+        if (current == null && newMinimum != null ||
+                current != null && newMinimum == null ||
+                current != null && current.compareTo(newMinimum) != 0) {
+
+            product.setMinimalPrice(newMinimum);
 
             log.info("Product has a new minimal price: {}", product);
         }

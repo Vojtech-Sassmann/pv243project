@@ -1,22 +1,21 @@
 package cz.fi.muni.TACOS.service.events;
 
-import cz.fi.muni.TACOS.persistence.entity.Attribute;
-
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
 public class AttributePriceChanged {
 
-    private final Attribute attribute;
+    private final Set<Long> affectedCategories;
 
-    public AttributePriceChanged(Attribute attribute) {
-        this.attribute = attribute;
+    public AttributePriceChanged(Set<Long> affectedCategories) {
+        this.affectedCategories = affectedCategories;
     }
 
-    public Attribute getAttribute() {
-        return attribute;
+    public Set<Long> getAffectedCategories() {
+        return affectedCategories;
     }
 
     @Override
@@ -24,19 +23,19 @@ public class AttributePriceChanged {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttributePriceChanged that = (AttributePriceChanged) o;
-        return Objects.equals(attribute, that.attribute);
+        return Objects.equals(affectedCategories, that.affectedCategories);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(attribute);
+        return Objects.hash(affectedCategories);
     }
 
     @Override
     public String toString() {
         return "AttributePriceChanged{" +
-                "attribute=" + attribute +
+                "affectedCategories=" + affectedCategories +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package cz.fi.muni.TACOS.service.Impl;
 
 import cz.fi.muni.TACOS.persistence.dao.TemplateDao;
 import cz.fi.muni.TACOS.persistence.entity.AttributeCategory;
+import cz.fi.muni.TACOS.persistence.entity.Product;
 import cz.fi.muni.TACOS.persistence.entity.Template;
 import cz.fi.muni.TACOS.service.AbstractEntityService;
 import cz.fi.muni.TACOS.service.TemplateService;
@@ -15,7 +16,8 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -38,37 +40,91 @@ public class TemplateServiceImpl extends AbstractEntityService<Template> impleme
     }
 
     @Override
+    public void create(Template entity) {
+        super.create(entity);
+
+        templatePriceChangedEvent.fire(new TemplatePriceChanged(entity.getProducts().stream()
+                .map(Product::getId)
+                .collect(Collectors.toSet())));
+    }
+
+    @Override
+    public void delete(Template entity) {
+        Set<Long> affectedProducts = entity.getProducts().stream()
+                .map(Product::getId)
+                .collect(Collectors.toSet());
+
+        super.delete(entity);
+
+        templatePriceChangedEvent.fire(new TemplatePriceChanged(affectedProducts));
+    }
+
+    @Override
     public void addAttributeCategory(Template template, AttributeCategory category) {
         template.addAttributeCategory(category);
+        recalculatePrice(template, true);
     }
 
     @Override
     public void removeAttributeCategory(Template template, AttributeCategory category) {
         template.removeAttributeCategory(category);
+        recalculatePrice(template, true);
+    }
+
+    private Set<Template> getTemplatesById(Set<Long> ids) {
+        Set<Template> templates = new HashSet<>();
+        for (Long id : ids) {
+            templates.add(findById(id));
+        }
+        return templates;
     }
 
     private void recalculatePrices(@Observes AttributeCategoryPriceChanged event) {
-        final AttributeCategory changedAttributeCategory = event.getAttributeCategory();
-        List<Template> templates = getAll();
-
-        templates = templates.stream()
-                .filter(t -> t.getAttributeCategories()
-                        .stream()
-                        .map(AttributeCategory::getId)
-                        .collect(Collectors.toList())
-                        .contains(changedAttributeCategory.getId()))
-                .collect(Collectors.toList());
-
-        templates.forEach(t -> recalculatePrice(t, changedAttributeCategory.getMinimalPrice()));
+        Set<Template> templates = getTemplatesById(event.getAffectedTemplates());
+        Set<Product> affectedProducts = new HashSet<>();
+        log.info("Detected attribute category change: {}", event);
+        for (Template template : templates) {
+            affectedProducts.addAll(recalculatePrice(template, false));
+        }
+        log.info("Detected affected products: {}", affectedProducts);
+        templatePriceChangedEvent.fire(new TemplatePriceChanged(affectedProducts.stream()
+                .map(Product::getId)
+                .collect(Collectors.toSet())));
     }
 
-    private void recalculatePrice(Template template, BigDecimal potentialMinimum) {
+    private Set<Product> recalculatePrice(Template template, boolean fireEvents) {
         BigDecimal current = template.getMinimalPrice();
-        if (current == null || current.compareTo(potentialMinimum) > 0) {
-            template.setMinimalPrice(potentialMinimum);
+        BigDecimal newMinimum = null;
 
-            templatePriceChangedEvent.fire(new TemplatePriceChanged(template));
+        template = templateDao.findById(template.getId());
+
+        log.debug("Recalculating template: {}", template);
+
+        for(BigDecimal price : template.getAttributeCategories().stream()
+                .map(AttributeCategory::getMinimalPrice)
+                .collect(Collectors.toList())) {
+            if (newMinimum == null && price != null) {
+                newMinimum = price;
+            } else if (newMinimum != null && price != null) {
+                newMinimum = newMinimum.add(price);
+            }
+        }
+
+        log.debug("Previous price: {}, newMinimum {}", current, newMinimum);
+
+        if (current == null && newMinimum != null ||
+                current != null && newMinimum == null ||
+                current != null && current.compareTo(newMinimum) != 0) {
+
+            template.setMinimalPrice(newMinimum);
+
+            if (fireEvents) {
+                templatePriceChangedEvent.fire(new TemplatePriceChanged(template.getProducts().stream()
+                        .map(Product::getId)
+                        .collect(Collectors.toSet())));
+            }
             log.info("Template has a new minimal price: {}", template);
         }
+        return template.getProducts();
     }
 }

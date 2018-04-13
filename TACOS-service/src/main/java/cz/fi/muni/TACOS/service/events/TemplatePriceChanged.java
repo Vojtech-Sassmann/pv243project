@@ -1,22 +1,21 @@
 package cz.fi.muni.TACOS.service.events;
 
-import cz.fi.muni.TACOS.persistence.entity.Template;
-
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
 public class TemplatePriceChanged {
 
-    private final Template template;
+    private final Set<Long> affectedProducts;
 
-    public TemplatePriceChanged(Template template) {
-        this.template = template;
+    public TemplatePriceChanged(Set<Long> affectedProducts) {
+        this.affectedProducts = affectedProducts;
     }
 
-    public Template getTemplate() {
-        return template;
+    public Set<Long> getAffectedProducts() {
+        return affectedProducts;
     }
 
     @Override
@@ -24,19 +23,19 @@ public class TemplatePriceChanged {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TemplatePriceChanged that = (TemplatePriceChanged) o;
-        return Objects.equals(template, that.template);
+        return Objects.equals(affectedProducts, that.affectedProducts);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(template);
+        return Objects.hash(affectedProducts);
     }
 
     @Override
     public String toString() {
         return "TemplatePriceChanged{" +
-                "template=" + template +
+                "affectedProducts=" + affectedProducts +
                 '}';
     }
 }

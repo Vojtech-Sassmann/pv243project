@@ -99,13 +99,13 @@ public class AttributeCategory implements Serializable {
         if (this == o) return true;
         if (!(o instanceof AttributeCategory)) return false;
         AttributeCategory that = (AttributeCategory) o;
-        return Objects.equals(getName(), that.getName()) &&
-                Objects.equals(getAttributes(), that.getAttributes());
+        return Objects.equals(getName(), that.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getAttributes());
+
+        return Objects.hash(getName());
     }
 
     @Override
@@ -114,6 +114,7 @@ public class AttributeCategory implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", minimalPrice=" + minimalPrice +
+                ", attributes=" + attributes +
                 '}';
     }
 }
