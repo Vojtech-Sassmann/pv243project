@@ -23,7 +23,7 @@ import java.util.List;
  * @author Peter Balcirak <peter.balcirak@gmail.com>
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 @ApplicationScoped
 public class TemplateFacadeImpl implements TemplateFacade {
 

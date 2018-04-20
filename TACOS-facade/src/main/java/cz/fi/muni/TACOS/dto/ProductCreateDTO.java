@@ -15,6 +15,8 @@ public class ProductCreateDTO {
 
 	private Set<Long> productCategoryIds = new HashSet<>();
 
+	private Set<Long> templateIds = new HashSet<>();
+
 	public String getName() {
 		return name;
 	}
@@ -39,6 +41,14 @@ public class ProductCreateDTO {
 		this.productCategoryIds = productCategories;
 	}
 
+	public Set<Long> getTemplateIds() {
+		return templateIds;
+	}
+
+	public void setTemplateIds(Set<Long> templateIds) {
+		this.templateIds = templateIds;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -46,13 +56,14 @@ public class ProductCreateDTO {
 		ProductCreateDTO that = (ProductCreateDTO) o;
 		return Objects.equals(name, that.name) &&
 				Objects.equals(description, that.description) &&
-				Objects.equals(productCategoryIds, that.productCategoryIds);
+				Objects.equals(productCategoryIds, that.productCategoryIds) &&
+				Objects.equals(templateIds, that.templateIds);
 	}
 
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(name, description, productCategoryIds);
+		return Objects.hash(name, description, productCategoryIds, templateIds);
 	}
 
 	@Override
@@ -61,6 +72,7 @@ public class ProductCreateDTO {
 				"name='" + name + '\'' +
 				", description='" + description + '\'' +
 				", productCategoryIds=" + productCategoryIds +
+				", templateIds=" + templateIds +
 				'}';
 	}
 }

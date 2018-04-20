@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @author Pavel Vyskocil <vyskocilpavel@muni.cz>
  */
-@Transactional
+@Transactional(rollbackOn = { Exception.class })
 @ApplicationScoped
 public class CreatedProductFacadeImpl implements CreatedProductFacade {
 

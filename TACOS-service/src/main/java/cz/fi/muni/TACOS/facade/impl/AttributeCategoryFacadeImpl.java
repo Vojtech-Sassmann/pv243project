@@ -4,6 +4,7 @@ import cz.fi.muni.TACOS.dto.AttributeCategoryCreateDTO;
 import cz.fi.muni.TACOS.dto.AttributeCategoryDTO;
 import cz.fi.muni.TACOS.exceptions.InvalidRelationEntityIdException;
 import cz.fi.muni.TACOS.facade.AttributeCategoryFacade;
+import cz.fi.muni.TACOS.persistence.entity.Attribute;
 import cz.fi.muni.TACOS.persistence.entity.AttributeCategory;
 import cz.fi.muni.TACOS.persistence.entity.Template;
 import cz.fi.muni.TACOS.service.AttributeCategoryService;
@@ -22,7 +23,7 @@ import java.util.List;
  * @author Peter Balcirak <peter.balcirak@gmail.com>
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
-@Transactional
+@Transactional(rollbackOn = { Exception.class })
 @ApplicationScoped
 public class AttributeCategoryFacadeImpl implements AttributeCategoryFacade {
 
@@ -65,6 +66,15 @@ public class AttributeCategoryFacadeImpl implements AttributeCategoryFacade {
             }
             templateService.addAttributeCategory(template, attributeCategory);
         }
+
+        for (Long attributeId : entity.getAttributeIds()) {
+            Attribute attribute = attributeService.findById(attributeId);
+            if (attribute == null) {
+                throw new InvalidRelationEntityIdException("Attribute for given id does not exist. id: " + attributeId);
+            }
+            attributeCategoryService.addAttribute(attributeCategory, attribute);
+        }
+
         return attributeCategory.getId();
     }
 

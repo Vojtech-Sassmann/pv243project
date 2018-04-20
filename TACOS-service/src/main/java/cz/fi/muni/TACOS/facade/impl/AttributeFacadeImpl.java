@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
-@Transactional
+@Transactional(rollbackOn = { Exception.class })
 @ApplicationScoped
 public class AttributeFacadeImpl implements AttributeFacade {
 

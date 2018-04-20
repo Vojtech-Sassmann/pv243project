@@ -9,5 +9,5 @@ public class ApiUris {
 	public static final String URI_USERS = "/users";
 	public static final String URI_ATTRIBUTES = "/attributes";
 	public static final String URI_ATTRIBUTE_CATEGORIES = "/attributeCategories";
-
+	public static final String URI_TEMPLATES = "/templates";
 }

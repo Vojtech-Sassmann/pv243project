@@ -23,7 +23,7 @@ import java.util.List;
  * @author Peter Balcirak <peter.balcirak@gmail.com>
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
-@Transactional
+@Transactional(rollbackOn = { Exception.class })
 @ApplicationScoped
 public class ProductFacadeImpl implements ProductFacade {
 
@@ -55,6 +55,14 @@ public class ProductFacadeImpl implements ProductFacade {
                 throw new InvalidRelationEntityIdException("Product category for given id does not exist. id: " + id);
             }
             productCategoryService.addProductToCategory(category, product);
+        }
+
+        for (Long templateId : entity.getTemplateIds()) {
+            Template template = templateService.findById(templateId);
+            if (template == null) {
+                throw new InvalidRelationEntityIdException("Template for given id does not exist. id: " + templateId);
+            }
+            productService.addTemplate(product, template);
         }
 
         return product.getId();
