@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {KeycloakService} from "../services/keycloak/keycloak.service";
 
 
 @Component({
@@ -8,11 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor() {}
+  constructor(private keycloakService : KeycloakService) {}
 
   ngOnInit() {
   }
 
+  public login() : void {
+    console.log(this.keycloakService.account());
+  }
 }
 
 

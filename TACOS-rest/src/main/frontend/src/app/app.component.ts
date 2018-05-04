@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {KeycloakHttp} from "./services/keycloak/keycloak.http";
 
 @Component({
   selector: 'app-root',

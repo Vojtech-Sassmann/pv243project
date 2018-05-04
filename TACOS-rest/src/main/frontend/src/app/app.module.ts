@@ -60,6 +60,9 @@ import { BasketProductListComponent } from './marketplace/basket/basket-product-
 import { BasketProductListNodeComponent } from './marketplace/basket/basket-product-list/basket-product-list-node/basket-product-list-node.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { AddProductPageComponent } from './admin/add-product-page/add-product-page.component';
+import {KEYCLOAK_HTTP_PROVIDER, KeycloakHttp, keycloakHttpFactory} from "./services/keycloak/keycloak.http";
+import {RequestOptions, XHRBackend} from "@angular/http";
+import {KeycloakService} from "./services/keycloak/keycloak.service";
 
 @NgModule({
   declarations: [
@@ -112,6 +115,8 @@ import { AddProductPageComponent } from './admin/add-product-page/add-product-pa
     NgSelectModule
   ],
   providers: [
+    KEYCLOAK_HTTP_PROVIDER,
+    KeycloakService,
     UserService,
     ProductCategoryService,
     ProductService,
