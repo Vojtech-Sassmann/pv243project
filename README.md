@@ -16,10 +16,24 @@ Wiki: https://github.com/LizzardCorp/pv243project/wiki
 # Running the project
 
 #### Prerequisites
-
+- JDK 8
 - Wildfly 11 and later
 - Setted $JBOSS_HOME
 - angular cli
+
+#### Install Angular CLI
+
+Install nodejs and npm
+```
+sudo apt install nodejs
+sudo apt install npm
+```
+
+Install angular CLI
+```
+sudo npm install -g @angular/cli
+```
+
 
 #### Setting the wildfly domain mode
 

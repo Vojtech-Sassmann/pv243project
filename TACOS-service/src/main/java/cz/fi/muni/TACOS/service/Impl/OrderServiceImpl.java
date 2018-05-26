@@ -6,6 +6,9 @@ import cz.fi.muni.TACOS.persistence.entity.Order;
 import cz.fi.muni.TACOS.enums.OrderState;
 import cz.fi.muni.TACOS.service.AbstractEntityService;
 import cz.fi.muni.TACOS.service.OrderService;
+import cz.fi.muni.TACOS.service.jms.MessageSender;
+import cz.fi.muni.TACOS.service.jms.objects.OrderEvent;
+import cz.fi.muni.TACOS.service.jms.objects.OrderMessage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,6 +25,9 @@ import java.util.List;
 public class OrderServiceImpl extends AbstractEntityService<Order> implements OrderService {
 
     private final OrderDao orderDao;
+
+    @Inject
+    private MessageSender messageSender;
 
     @Inject
     public OrderServiceImpl(OrderDao orderDao) {
@@ -69,6 +75,8 @@ public class OrderServiceImpl extends AbstractEntityService<Order> implements Or
 
 		order.setSubmitted(LocalDate.now());
 		order.setState(OrderState.SUBMITTED);
+
+		messageSender.sendMessage(new OrderMessage(order.getId(), OrderEvent.CREATED));
 	}
 
 	@Override
