@@ -45,22 +45,8 @@ public class MessageReceiver implements MessageListener {
             System.out.println(order.getSubmitter().getEmail());
             System.out.println("Message received (async): " + orderMessage);
 
-            StringBuilder body = new StringBuilder();
-            body.append("We have received your order with number: ")
-                    .append(orderMessage.getOrderId())
-                    .append("\n\n")
-                    .append("Purchased items: \n");
-
-            order.getProducts().forEach(p -> {
-                body.append("\t");
-                body.append(p.getProduct().getName());
-                body.append(": ");
-                body.append(p.getCount());
-                body.append(" pieces\n");
-            });
-
             Email customerEmail = new Email.Builder()
-                    .setBody(body.toString())
+                    .setBody(orderMessage.getOrderEvent().getEmailGenerator().generateEmailBody(order))
                     .setFrom("tacos-shop2@gmail.com")
                     .setSubject("TACOS Order " + orderMessage.getOrderId())
                     .setTo(order.getSubmitter().getEmail())

@@ -25,8 +25,8 @@ Wiki: https://github.com/LizzardCorp/pv243project/wiki
 
 Install nodejs and npm
 ```
-sudo apt install nodejs
-sudo apt install npm
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
 ```
 
 Install angular CLI
@@ -34,91 +34,33 @@ Install angular CLI
 sudo npm install -g @angular/cli
 ```
 
+#### Running server
 
-#### Setting the wildfly domain mode
-
-`cd $JBOSS_HOME/domain/configuration`
-
-* Open host.xml and configure setting for servers. For example:
-```
-<servers>
-         <server name="server1" group="serverGroup1">
-         </server>
-         <server name="server2" group="serverGroup2" auto-start="true">
-             <jvm name="default"/>
-             <socket-bindings port-offset="100"/>
-         </server>
-         <server name="server3" group="other-server-group" auto-start="false">
-             <jvm name="default"/>
-             <socket-bindings port-offset="250"/>
-         </server>
-     </servers>
-```
-* Open domain.xml and configure setting for server-groups. For example:
-```
-<server-groups>
-        <server-group name="main-server-group" profile="full">
-            <jvm name="default">
-                <heap size="64m" max-size="512m"/>
-            </jvm>
-            <socket-binding-group ref="full-sockets"/>
-            <deployments>
-                <deployment name="TACOS-rest.war" runtime-name="TACOS-rest.war"/>
-            </deployments>
-        </server-group>
-        <server-group name="other-server-group" profile="full-ha">
-            <jvm name="default">
-                <heap size="64m" max-size="512m"/>
-            </jvm>
-            <socket-binding-group ref="full-ha-sockets"/>
-            <deployments>
-                <deployment name="TACOS-rest.war" runtime-name="TACOS-rest.war"/>
-            </deployments>
-        </server-group>
-        <server-group name="serverGroup1" profile="full">
-            <jvm name="default">
-                <heap size="64m" max-size="512m"/>
-            </jvm>
-            <socket-binding-group ref="full-sockets"/>
-            <deployments>
-                <deployment name="TACOS-rest.war" runtime-name="TACOS-rest.war"/>
-            </deployments>
-        </server-group>
-        <server-group name="serverGroup2" profile="full">
-            <jvm name="default">
-                <heap size="64m" max-size="512m"/>
-            </jvm>
-            <socket-binding-group ref="full-sockets"/>
-            <deployments>
-                <deployment name="TACOS-rest.war" runtime-name="TACOS-rest.war"/>
-            </deployments>
-        </server-group>
-    </server-groups>
-
-```
-
-#### First run - Ubuntu or other system with gnome
-
+Clone the project
 `git clone https://github.com/LizzardCorp/pv243project.git`
 
-`cd pv243project/TACOS-rest/src/main/frontend`
+Build the project
+`mvn clean install -DskipTests`
 
-`npm install`
+Go to the app directory
+`cd TACOS-rest`
 
-`cd ../../../..`
+Run wildfly in domain mode 
+`$JBOSS_HOME/bin/domain.sh`
 
-`./run.sh`
+After startup run configuration script
+`$JBOSS_HOME/bin/jboss-cli.sh --file=configure.cli`
 
-#### First run - Other system based on Linux
+Deploy application
+`$JBOSS_HOME/bin/jboss-cli.sh --file=deploy.cli`
 
-`git clone https://github.com/LizzardCorp/pv243project.git`
+#### Running frontend
 
-`cd pv243project/TACOS-rest/src/main/frontend`
+Cd to frontend folder
+`cd src/main/frontend`
 
-`npm install`
+Run the angular project
+`ng serve`
 
-`cd $JBOSS_HOME/bin`
-
-`./domain.sh`
-
-`./jboss-cli.sh --file=[path to the root of pv243project]/TACOS-rest/deploy.cli`
+Then navigate to url 
+`localhost:4200/marketplace`

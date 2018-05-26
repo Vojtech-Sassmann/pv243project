@@ -23,7 +23,7 @@ public class MessageSender {
     private Queue queue;
 
     @Inject
-    JMSContext context;
+    private JMSContext context;
 
     public void sendMessage(Serializable object) {
         try {

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Order, OrderService} from "../../services/order/order.service";
 import {UserService} from "../../services/user/user.service";
 import {Router} from "@angular/router";
-import {ModalDirective} from "angular-bootstrap-md/modals/modal.directive";
+import {ModalDirective} from "angular-bootstrap-md";
 
 @Component({
   selector: 'app-basket',

@@ -87,6 +87,8 @@ public class OrderServiceImpl extends AbstractEntityService<Order> implements Or
 		}
 
 		order.setState(OrderState.CANCELED);
+
+		messageSender.sendMessage(new OrderMessage(order.getId(), OrderEvent.CANCELLED));
 	}
 
 	@Override
@@ -96,6 +98,8 @@ public class OrderServiceImpl extends AbstractEntityService<Order> implements Or
 		}
 		order.setFinished(LocalDate.now());
 		order.setState(OrderState.FINISHED);
+
+		messageSender.sendMessage(new OrderMessage(order.getId(), OrderEvent.FINISHED));
 	}
 
 	@Override
@@ -105,6 +109,8 @@ public class OrderServiceImpl extends AbstractEntityService<Order> implements Or
 		}
 
 		order.setState(OrderState.PROCESSED);
+
+		messageSender.sendMessage(new OrderMessage(order.getId(), OrderEvent.PROCESSED));
 	}
 
 	/**

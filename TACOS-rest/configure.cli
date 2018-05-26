@@ -1,0 +1,39 @@
+connect
+
+batch
+
+# remove default servers
+/host=master/server-config=server-one:stop(blocking=true)
+/host=master/server-config=server-two:stop(blocking=true)
+/host=master/server-config=server-one:remove()
+/host=master/server-config=server-two:remove()
+
+# create new servers
+/server-group=tacos-server-group:add(profile=full-ha,socket-binding-group=full-ha-sockets)
+
+/host=master/server-config=server1:add(group=tacos-server-group,auto-start=true)
+/host=master/server-config=server2:add(group=tacos-server-group,auto-start=true)
+
+/host=master/server-config=server2/:write-attribute(name=socket-binding-port-offset,value=100)
+
+run-batch
+
+# configure order message queue
+jms-queue add --profile=full-ha --queue-address=orderQueue --entries=java:jboss/exported/jms/queue/order
+
+# Start batching commands
+batch
+
+# Create the custom MyOtherMail mail session
+/profile=full-ha/subsystem=mail/mail-session=MyOtherMail:add(jndi-name=java:jboss/mail/MyOtherMail)
+
+# Configure the custom SMTP, POP3, and IMAP socket binding groups
+/socket-binding-group=full-ha-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=smtp.gmail.com,port=465)
+
+# Add the custom socket binding groups to the custom MyOtherMail mail session
+/profile=full-ha/subsystem=mail/mail-session=MyOtherMail/server=smtp:add(outbound-socket-binding-ref=my-smtp-binding,username=tacos.shop2@gmail.com,password=zralok147,ssl=true)
+
+# Run the batch commands
+run-batch
+
+reload --host=master

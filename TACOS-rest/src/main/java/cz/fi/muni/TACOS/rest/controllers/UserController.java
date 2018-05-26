@@ -209,17 +209,17 @@ public class UserController {
 		log.debug("Rest getBasket");
 
 		//TODO : REMOVE THIS WHEN SECURITY IS IMPLEMENTED
-		UserDTO fakeUser = userFacade.findByEmail("fake@user.cz");
+		UserDTO fakeUser = userFacade.findByEmail("v.sassmann@gmail.com");
 		if (fakeUser == null) {
 			UserCreateDTO fakeUserCreate = new UserCreateDTO();
-			fakeUserCreate.setEmail("fake@user.cz");
+			fakeUserCreate.setEmail("v.sassmann@gmail.com");
 			fakeUserCreate.setName("fake");
 			fakeUserCreate.setSurname("user");
 			fakeUserCreate.setRole(UserRole.SUPERADMIN);
 			fakeUserCreate.setPassword("fakeuser");
 
 			userFacade.create(fakeUserCreate);
-			fakeUser = userFacade.findByEmail("fake@user.cz");
+			fakeUser = userFacade.findByEmail("v.sassmann@gmail.com");
 		}
 		return userFacade.getBasket(fakeUser.getId());
 	}

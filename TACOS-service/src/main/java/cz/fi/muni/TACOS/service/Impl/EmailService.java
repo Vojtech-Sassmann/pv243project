@@ -1,5 +1,7 @@
 package cz.fi.muni.TACOS.service.Impl;
 
+import cz.fi.muni.TACOS.service.Resources;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.annotation.Resource;
 import javax.mail.Address;
@@ -19,7 +21,7 @@ public class EmailService {
 
     private final Logger log = Logger.getLogger(EmailService.class.getName());
 
-    @Resource(mappedName = "java:jboss/mail/MyOtherMail")
+    @Resource(lookup = Resources.EMAIL_SESSION)
     private Session session;
 
     public void sendEmail(Email email) {
