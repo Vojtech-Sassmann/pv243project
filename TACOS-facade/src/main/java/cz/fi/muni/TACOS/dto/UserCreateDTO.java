@@ -72,7 +72,7 @@ public class UserCreateDTO {
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(name, surname, email, role, password);
+		return Objects.hash(name, surname, email, password);
 	}
 
     @Override

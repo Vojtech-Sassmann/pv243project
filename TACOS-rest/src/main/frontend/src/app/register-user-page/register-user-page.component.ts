@@ -33,8 +33,8 @@ export class RegisterUserPageComponent implements OnInit {
       password: password,
       role: "SUBMITTER"
     };
-    this.userService.createUser(this.user).subscribe(() => {
-      this.router.navigate([("/login")]);
+    this.userService.register(this.user).subscribe(() => {
+      this.router.navigate([("/auth")]);
     });
   }
 }

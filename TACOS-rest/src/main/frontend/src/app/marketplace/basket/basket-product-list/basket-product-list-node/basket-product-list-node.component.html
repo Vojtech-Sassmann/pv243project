@@ -1,20 +1,20 @@
 <div class="product-list-node">
   <div class="row">
-    <div class="col-lg-2 text-center">
+ <!--   <div class="col-lg-2 text-center">
       <div class="card text-center">
         <img class="img-thumbnail" [src]="product.product.image">
       </div>
+    </div>-->
+    <div class="col-lg-4 col-xs-4 text-center">
+     {{product.product.name}}
     </div>
-    <div class="col-lg-2 text-center">
-      <a href="">{{product.product.name}}</a>
-    </div>
-    <div class="col-lg-2 text-center">
+    <div class="col-lg-2 col-xs-2 text-center">
       {{product.count}}
     </div>
-    <div class="col-lg-2 text-center">
+    <div class="col-lg-2 col-xs-2 text-center">
       {{product.price}}
     </div>
-    <div class="col-lg-2 text-center">
+    <div class="col-lg-2 col-xs-2 text-center">
       {{product.count * product.price}}
     </div>
     <div class="col-lg-2 text-center">

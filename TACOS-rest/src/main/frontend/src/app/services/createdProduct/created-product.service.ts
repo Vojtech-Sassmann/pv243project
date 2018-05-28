@@ -7,32 +7,32 @@ import {Product} from "../product/product.service";
 @Injectable()
 export class CreatedProductService {
 
-  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/createdProducts";
+  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/auth/createdProducts";
 
   constructor(protected httpClient:HttpClient) { }
 
   public createCreatedProduct(createdProductCreate: CreatedProductCreate) : Observable<number>  {
-    return this.httpClient.post<number>(this.URL, createdProductCreate,{});
+    return this.httpClient.post<number>(this.URL, createdProductCreate,{withCredentials: true});
   }
 
   public deleteCreatedProduct(createdProduct: CreatedProduct) : Observable<number>  {
-    return this.httpClient.delete<number>( `${this.URL}/${createdProduct.id}`,{});
+    return this.httpClient.delete<number>( `${this.URL}/${createdProduct.id}`,{withCredentials: true});
   }
 
   public getAllCreatedProducts() : Observable<Array<CreatedProduct>> {
-    return this.httpClient.get<Array<CreatedProduct>>(this.URL, {});
+    return this.httpClient.get<Array<CreatedProduct>>(this.URL, {withCredentials: true});
   }
 
   public findCreatedProductById(id: number) : Observable<CreatedProduct> {
-    return this.httpClient.get<CreatedProduct>(`${this.URL}/${id}`,{});
+    return this.httpClient.get<CreatedProduct>(`${this.URL}/${id}`,{withCredentials: true});
   }
 
   public addAttribute(createdProduct : CreatedProduct, attribute : Attribute) : Observable<number> {
-    return this.httpClient.put<number>(`${this.URL}/${createdProduct.id}/addAttribute/${attribute.id}`, {});
+    return this.httpClient.put<number>(`${this.URL}/${createdProduct.id}/addAttribute/${attribute.id}`, null, {withCredentials: true});
   }
 
   public removeAttribute(createdProduct : CreatedProduct, attribute : Attribute) : Observable<number> {
-    return this.httpClient.put<number>(`${this.URL}/${createdProduct.id}/removeAttribute/${attribute.id}`, {});
+    return this.httpClient.put<number>(`${this.URL}/${createdProduct.id}/removeAttribute/${attribute.id}`, null, {withCredentials: true});
   }
 }
 

@@ -1,26 +1,47 @@
 <div *ngIf="loaded" class="basket">
 
-  <app-basket-product-list [order]="this.order" (reload)="loadBasket()">
+  <div *ngIf="order==undefined || order == null">
+    <h2>Your basket is empty.</h2>
+  </div>
+  <div *ngIf="order!=undefined && order != null">
+    <app-basket-product-list [order]="this.order" (reload)="loadBasket()">
 
-  </app-basket-product-list>
+    </app-basket-product-list>
 
 
 
-  <div class="text-center mt-4">
-    <button class="btn btn-primary" [disabled]="this.order == null || this.order == undefined || this.order.products == null || this.order.products.length == 0" (click)="basicModal.show()" >Submit order</button>
+    <div class="text-center mt-4">
+      <button class="btn btn-primary" [disabled]="this.order == null || this.order == undefined || this.order.products == null || this.order.products.length == 0" data-toggle="modal" data-target="#statusModal" (click)="submitOrder()">Submit order</button>
+    </div>
   </div>
 
 </div>
 
-<div mdbModal #basicModal="mdb-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true" (onShow)="submitOrder()" [config]="{backdrop: false, ignoreBackdropClick: true}">
+<div mdbModal id="statusModal" #basicModal="mdb-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="myBasicModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: true}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-      <div class="modal-body">
-        <span>Your order is succesfully submitted.</span>
-      </div>
-      <div>
-        <button type="button" class="btn btn-info" routerLink="./../eshop" >OK</button>
+        <div class="modal-body">
+          <div *ngIf="waitingForStatus" class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+          </div>
+          <div *ngIf="!waitingForStatus">
+            <div *ngIf="success">
+              Your order has been successfully submitted.
+              <button type="button" class="btn btn-info" data-dismiss="modal"
+                      (click)="this.router.navigate(['/marketplace'])">
+                Ok
+              </button>
+            </div>
+            <div *ngIf="!success">
+              An error happened when trying to send your order. Please try it again later.
+              <button type="button" class="btn btn-info" data-dismiss="modal">
+                Ok
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

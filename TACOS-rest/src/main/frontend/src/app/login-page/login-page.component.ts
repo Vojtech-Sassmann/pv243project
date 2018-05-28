@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../services/auth/auth.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -8,11 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor() {}
+  public displayError : boolean = false;
+
+  constructor(private authService : AuthService, private router : Router) {}
 
   ngOnInit() {
   }
 
+  public login(email : String, password : String) {
+    let auth = {"email" : email, "password" : password};
+
+    this.authService.authenticate(auth).subscribe(success => {
+      console.log(success);
+      if (!success) {
+        this.displayError = true;
+      } else {
+        this.router.navigate([("/marketplace")]);
+      }
+    });
+  }
 }
 
 

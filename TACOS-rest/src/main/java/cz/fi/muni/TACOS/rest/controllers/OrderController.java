@@ -2,10 +2,12 @@ package cz.fi.muni.TACOS.rest.controllers;
 
 import cz.fi.muni.TACOS.dto.OrderDTO;
 import cz.fi.muni.TACOS.enums.OrderState;
+import cz.fi.muni.TACOS.enums.UserRole;
 import cz.fi.muni.TACOS.facade.CreatedProductFacade;
 import cz.fi.muni.TACOS.facade.OrderFacade;
 import cz.fi.muni.TACOS.rest.ApiUris;
 import cz.fi.muni.TACOS.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.TACOS.rest.interceptors.Secured;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,10 @@ public class OrderController {
 	private CreatedProductFacade createdProductFacade;
 
 	@DELETE
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public void deleteOrder(@PathParam("id") Long id) {
@@ -51,6 +57,10 @@ public class OrderController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<OrderDTO> getAll() {
 		log.debug("Rest get all orders");
@@ -60,6 +70,10 @@ public class OrderController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public OrderDTO findOrderById(@PathParam("id") Long id) {
@@ -74,6 +88,10 @@ public class OrderController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/filter/state/{state}")
 	public List<OrderDTO> getAllForState(@PathParam("state") OrderState state) {
@@ -87,6 +105,10 @@ public class OrderController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/filter/notNew")
 	public List<OrderDTO> getAllWithoutNewOrders() {
@@ -96,6 +118,11 @@ public class OrderController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{orderId}/removeCreatedProduct")
 	public void removeCreatedProduct(@PathParam("orderId") Long id, @QueryParam("createdProductId") Long createdProductId) {
@@ -113,6 +140,11 @@ public class OrderController {
 
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/submitOrder")
 	public void submitOrder(@QueryParam("id") Long id) {
@@ -126,6 +158,11 @@ public class OrderController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/cancelOrder")
 	public void cancelOrder(@QueryParam("id") Long id) {
@@ -139,6 +176,10 @@ public class OrderController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/finishOrder")
 	public void finishOrder(@QueryParam("id") Long id) {
@@ -152,6 +193,10 @@ public class OrderController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+	})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/processOrder")
 	public void processOrder(@QueryParam("id") Long id) {

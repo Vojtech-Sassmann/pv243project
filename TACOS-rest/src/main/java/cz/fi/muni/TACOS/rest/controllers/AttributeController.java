@@ -2,11 +2,13 @@ package cz.fi.muni.TACOS.rest.controllers;
 
 import cz.fi.muni.TACOS.dto.AttributeCreateDTO;
 import cz.fi.muni.TACOS.dto.AttributeDTO;
+import cz.fi.muni.TACOS.enums.UserRole;
 import cz.fi.muni.TACOS.exceptions.InvalidRelationEntityIdException;
 import cz.fi.muni.TACOS.facade.AttributeFacade;
 import cz.fi.muni.TACOS.rest.ApiUris;
 import cz.fi.muni.TACOS.rest.exceptions.InvalidParameterException;
 import cz.fi.muni.TACOS.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.TACOS.rest.interceptors.Secured;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +38,10 @@ public class AttributeController {
     private AttributeFacade attributeFacade;
 
     @POST
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER
+    })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Long createAttribute(AttributeCreateDTO specification) {
@@ -51,6 +57,10 @@ public class AttributeController {
     }
 
     @DELETE
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void deleteAttribute(@PathParam("id") Long id) {
@@ -66,6 +76,11 @@ public class AttributeController {
     }
 
     @GET
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER,
+            UserRole.SUBMITTER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     public List<AttributeDTO> getAllAttributes() {
         log.debug("Rest getAllAttributes()");
@@ -74,6 +89,11 @@ public class AttributeController {
     }
 
     @GET
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER,
+            UserRole.SUBMITTER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public AttributeDTO findAttributeById(@PathParam("id") Long id) {

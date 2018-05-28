@@ -1,20 +1,23 @@
 <app-header></app-header>
 <div class="card login">
+  <div *ngIf="displayError" class="alert alert-danger">
+    Invalid login combination.
+  </div>
   <form>
     <p class="h4 text-center mb-4">Sign in</p>
 
     <div class="md-form">
       <i class="fa fa-envelope prefix grey-text"></i>
-      <input type="email" class="form-control"  placeholder="Your email" data-error="wrong email" data-success="OK" mdbInputDirective>
+      <input #email type="email" class="form-control"  placeholder="Your email" data-error="wrong email" data-success="OK" mdbInputDirective>
     </div>
 
     <div class="md-form">
       <i class="fa fa-lock prefix grey-text"></i>
-      <input type="password" class="form-control" placeholder="Your password"  customRegex="^[a-zA-Z0-9]{5,}$" data-error="Bad format" data-success="OK" mdbInputDirective>
+      <input #password type="password" class="form-control" placeholder="Your password"  customRegex="^[a-zA-Z0-9]{5,}$" data-error="Bad format" data-success="OK" mdbInputDirective>
     </div>
 
     <div class="text-center mt-4">
-      <button class="btn btn-info" type="submit">Login</button>
+      <button class="btn btn-info" type="submit" (click)="login(email.value, password.value)">Login</button>
     </div>
   </form>
 </div>

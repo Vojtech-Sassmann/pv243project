@@ -6,24 +6,24 @@ import {AttributeCategory} from "../attributeCategory/attribute-category.service
 @Injectable()
 export class TemplateService {
 
-  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/templates";
+  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/auth/templates";
 
   constructor(protected httpClient : HttpClient) { }
 
   public createTemplate(templateCreate: TemplateCreate) : Observable<number>  {
-    return this.httpClient.post<number>(this.URL, templateCreate,{});
+    return this.httpClient.post<number>(this.URL, templateCreate,{withCredentials: true});
   }
 
   public deleteTemplate(template: Template) : Observable<number>  {
-    return this.httpClient.delete<number>( `${this.URL}/${template.id}`,{});
+    return this.httpClient.delete<number>( `${this.URL}/${template.id}`,{withCredentials: true});
   }
 
   public getAllTemplates(): Observable<Array<Template>> {
-    return this.httpClient.get<Array<Template>>(this.URL, {});
+    return this.httpClient.get<Array<Template>>(this.URL, {withCredentials: true});
   }
 
   public findTemplateById(id: number) : Observable<Template> {
-    return this.httpClient.get<Template>(`${this.URL}/${id}`,{});
+    return this.httpClient.get<Template>(`${this.URL}/${id}`,{withCredentials: true});
   }
 
 }
