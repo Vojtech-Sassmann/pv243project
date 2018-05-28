@@ -2,12 +2,14 @@ package cz.fi.muni.TACOS.rest.controllers;
 
 import cz.fi.muni.TACOS.dto.ProductCategoryCreateDTO;
 import cz.fi.muni.TACOS.dto.ProductCategoryDTO;
+import cz.fi.muni.TACOS.enums.UserRole;
 import cz.fi.muni.TACOS.exceptions.InvalidRelationEntityIdException;
 import cz.fi.muni.TACOS.facade.ProductCategoryFacade;
 import cz.fi.muni.TACOS.facade.ProductFacade;
 import cz.fi.muni.TACOS.rest.ApiUris;
 import cz.fi.muni.TACOS.rest.exceptions.InvalidParameterException;
 import cz.fi.muni.TACOS.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.TACOS.rest.interceptors.Secured;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +43,11 @@ public class ProductCategoryController {
 	private ProductFacade productFacade;
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProductCategoryDTO> getAllProductCategories() {
 		log.debug("rest getAllProductCategories()");
@@ -49,6 +56,11 @@ public class ProductCategoryController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public ProductCategoryDTO findProductCategoryById(@PathParam("id") Long id) {
@@ -64,6 +76,10 @@ public class ProductCategoryController {
 	}
 
 	@POST
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Long createProductCategory(ProductCategoryCreateDTO specification) {
@@ -79,6 +95,10 @@ public class ProductCategoryController {
 	}
 
 	@DELETE
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public void deleteProductCategory(@PathParam("id") Long id) {
@@ -94,6 +114,10 @@ public class ProductCategoryController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{categoryId}/addSubCategory/{subCategoryId}")
 	public void addSubCategory(@PathParam("categoryId") Long categoryId, @QueryParam("subCategoryId") Long subCategoryId) {
@@ -110,6 +134,10 @@ public class ProductCategoryController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{categoryId}/removeSubCategory/{subCategoryId}")
 	public void removeSubCategory(@PathParam("categoryId") Long categoryId, @QueryParam("subCategoryId") Long subCategoryId) {
@@ -126,6 +154,10 @@ public class ProductCategoryController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{categoryId}/addProduct/{productId}")
 	public void addProduct(@PathParam("categoryId") Long categoryId, @QueryParam("productId") Long productId) {
@@ -143,6 +175,10 @@ public class ProductCategoryController {
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Path("/{categoryId}/removeProduct/{productId}")
 	public void removeProduct(@PathParam("categoryId") Long categoryId, @QueryParam("productId") Long productId) {
 		log.debug("Rest removeProduct (category: {}, product: {})", categoryId, productId);

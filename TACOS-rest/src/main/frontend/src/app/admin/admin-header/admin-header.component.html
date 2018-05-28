@@ -32,8 +32,16 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['./templates']">Templates</a>
       </li>
-      <li class="nav-item basket-btn">
+    </ul>
+    <ul class="ml-auto navbar-nav">
+      <li class="nav-item">
         <a class="nav-link" [routerLink]="['/marketplace/eshop']"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Eshop</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()">
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+          Logout
+        </a>
       </li>
     </ul>
   </div>

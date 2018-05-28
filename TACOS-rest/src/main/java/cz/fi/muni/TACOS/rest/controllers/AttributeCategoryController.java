@@ -2,11 +2,13 @@ package cz.fi.muni.TACOS.rest.controllers;
 
 import cz.fi.muni.TACOS.dto.AttributeCategoryCreateDTO;
 import cz.fi.muni.TACOS.dto.AttributeCategoryDTO;
+import cz.fi.muni.TACOS.enums.UserRole;
 import cz.fi.muni.TACOS.exceptions.InvalidRelationEntityIdException;
 import cz.fi.muni.TACOS.facade.AttributeCategoryFacade;
 import cz.fi.muni.TACOS.rest.ApiUris;
 import cz.fi.muni.TACOS.rest.exceptions.InvalidParameterException;
 import cz.fi.muni.TACOS.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.TACOS.rest.interceptors.Secured;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,11 @@ public class AttributeCategoryController {
     private AttributeCategoryFacade attributeCategoryFacade;
 
     @GET
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER,
+            UserRole.SUBMITTER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     public List<AttributeCategoryDTO> getAllAttributeCategories() {
         log.debug("rest getAllAttributeCategories()");
@@ -43,6 +50,11 @@ public class AttributeCategoryController {
     }
 
     @GET
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER,
+            UserRole.SUBMITTER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public AttributeCategoryDTO findAttributeCategoryById(@PathParam("id") Long id) {
@@ -57,6 +69,10 @@ public class AttributeCategoryController {
         return attributeCategoryDTO;
     }
     @POST
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Long createAttributeCategory(AttributeCategoryCreateDTO specification) {
@@ -72,6 +88,10 @@ public class AttributeCategoryController {
     }
 
     @DELETE
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void deleteAttributeCategory(@PathParam("id") Long id) {

@@ -59,6 +59,9 @@ Deploy application
 Cd to frontend folder
 `cd src/main/frontend`
 
+Install dependencies
+`npm install`
+
 Run the angular project
 `ng serve`
 

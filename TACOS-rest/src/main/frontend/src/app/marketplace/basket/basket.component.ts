@@ -17,6 +17,9 @@ export class BasketComponent implements OnInit {
   order : Order;
   public loaded: boolean = false;
 
+  public waitingForStatus: boolean = true;
+  public success: boolean = false;
+
   constructor(private orderService: OrderService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
@@ -33,7 +36,11 @@ export class BasketComponent implements OnInit {
 
   submitOrder() {
     this.orderService.submitOrder(this.order).subscribe(() => {
-      this.showModal();
+      this.success = true;
+      this.waitingForStatus = false;
+    }, () => {
+      this.success = false;
+      this.waitingForStatus = false;
     });
   }
 

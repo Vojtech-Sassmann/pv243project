@@ -2,12 +2,14 @@ package cz.fi.muni.TACOS.rest.controllers;
 
 import cz.fi.muni.TACOS.dto.ProductCreateDTO;
 import cz.fi.muni.TACOS.dto.ProductDTO;
+import cz.fi.muni.TACOS.enums.UserRole;
 import cz.fi.muni.TACOS.exceptions.InvalidRelationEntityIdException;
 import cz.fi.muni.TACOS.facade.ProductFacade;
 import cz.fi.muni.TACOS.facade.TemplateFacade;
 import cz.fi.muni.TACOS.rest.ApiUris;
 import cz.fi.muni.TACOS.rest.exceptions.InvalidParameterException;
 import cz.fi.muni.TACOS.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.TACOS.rest.interceptors.Secured;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,10 @@ public class ProductController {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+	})
 	public Long createProduct(ProductCreateDTO specification) {
 		log.debug("Rest createProduct({})", specification);
 
@@ -59,6 +65,10 @@ public class ProductController {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+	})
 	public void deleteProduct(@PathParam("id") Long id) {
 		log.debug("Rest deleteProduct({})", id);
 
@@ -72,6 +82,11 @@ public class ProductController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProductDTO> getAllProducts() {
 		log.debug("Rest getAllProducts()");
@@ -80,6 +95,11 @@ public class ProductController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public ProductDTO findProductById(@PathParam("id") Long id) {
@@ -95,6 +115,10 @@ public class ProductController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{productId}/addTemplate/{templateId}")
 	public void addTemplate(@PathParam("productId") Long productId, @QueryParam("templateId") Long templateId) {
@@ -111,6 +135,10 @@ public class ProductController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{productId}/removeTemplate/{templateId}")
 	public void removeTemplate(@PathParam("productId") Long productId, @QueryParam("templateId") Long templateId) {

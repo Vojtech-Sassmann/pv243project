@@ -32,6 +32,8 @@ import {CreateAttributeComponent} from "./admin/create-attribute/create-attribut
 import {CreateAttributeCategoryComponent} from "./admin/create-attribute-category/create-attribute-category.component";
 import {ProductsPageComponent} from "./admin/products-page/products-page.component";
 import {ProductDetailPageComponent} from "./components/product-detail-page/product-detail-page.component";
+import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
+import {NotAllowedComponent} from "./components/not-allowed/not-allowed.component";
 
 
 
@@ -168,13 +170,25 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'login',
+    path: 'auth',
     component: LoginPageComponent
   },
   {
     path: 'register',
     component: RegisterUserPageComponent,
   },
+  {
+    path: 'notfound',
+    component: PageNotFoundComponent
+  },
+  {
+    path: 'notAllowed',
+    component: NotAllowedComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/marketplace/eshop'
+  }
 ];
 
 @NgModule({

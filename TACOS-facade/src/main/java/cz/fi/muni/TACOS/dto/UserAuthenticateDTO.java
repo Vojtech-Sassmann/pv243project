@@ -48,7 +48,6 @@ public class UserAuthenticateDTO {
     public String toString() {
         return "UserAuthenticateDTO{" +
                 "email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }
