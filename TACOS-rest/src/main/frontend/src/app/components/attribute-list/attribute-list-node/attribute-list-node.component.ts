@@ -19,7 +19,7 @@ export class AttributeListNodeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private deleteAttribute() {
+  public deleteAttribute() {
     this.deleteAction.emit(null);
   }
 

@@ -13,6 +13,7 @@ export class AddUserComponent implements OnInit {
 
   private user : UserCreate;
   public formGroup:FormGroup;
+  public userRole : string;
 
   constructor(private userService : UserService, private router: Router, private fb: FormBuilder) { }
 

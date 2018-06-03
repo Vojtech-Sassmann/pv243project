@@ -247,6 +247,11 @@ public class SampleData {
 		product.setProductCategoryIds(Collections.singleton(pcTrousersId));
 		productTrousers2 = productFacade.create(product);
 
+		product.setDescription("Donec est ligula, dignissim vitae mattis nec, facilisis et sem. Aliquam eleifend massa vel nisi placerat, vitae lobortis diam auctor. In finibus consectetur dapibus. Ut ut ex cursus, luctus metus sed, elementum leo. Mauris sollicitudin condimentum nisl ac venenatis. Donec laoreet, quam a elementum bibendum, velit sapien efficitur libero, in euismod neque est quis libero.");
+		product.setName("Necklace");
+		product.setProductCategoryIds(Collections.singleton(pcAccessoriesId));
+		productTrousers2 = productFacade.create(product);
+
 		product.setDescription("Phasellus eu ullamcorper nulla. Nulla augue lectus, dictum ut est sed, ultrices auctor ipsum. Mauris semper eu nibh a porttitor. Donec magna leo, gravida sed tincidunt vitae, sodales volutpat metus. Aliquam tempus efficitur augue et fringilla. Aliquam euismod ultrices nunc. Proin erat ligula, vulputate ac odio ac, rhoncus tempor nunc. Mauris nibh eros, tincidunt eget fringilla eget, semper ut ex.");
 		product.setName("Shorts");
 		product.setProductCategoryIds(Collections.singleton(pcTrousersId));

@@ -19,7 +19,7 @@ export class AttributeCategoryListNodeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private deleteAttributeCategory() {
+  public deleteAttributeCategory() {
     this.deleteAction.emit(null);
   }
 }

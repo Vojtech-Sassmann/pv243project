@@ -20,7 +20,7 @@ export class UsersListNodeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private deleteUser() {
+  public deleteUser() {
     this.deleteAction.emit(null);
   }
 

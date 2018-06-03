@@ -20,7 +20,7 @@ export class TemplateListNodeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private deleteTemplate() {
+  public deleteTemplate() {
     this.deleteAction.emit(null);
   }
 
