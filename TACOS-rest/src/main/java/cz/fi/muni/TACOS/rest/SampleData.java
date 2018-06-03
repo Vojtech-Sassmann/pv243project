@@ -143,7 +143,7 @@ public class SampleData {
 		user.setName("RegularDDDD");
 		user.setSurname("UserDDD");
 		user.setPassword("passwordDDD");
-		user.setEmail("somedfddaruser@worldofjava.com");
+		user.setEmail("v.sassmann@gmail.com");
 		user.setRole(UserRole.SUBMITTER);
 		userFacade.create(user);
 

@@ -2,10 +2,12 @@ package cz.fi.muni.TACOS.rest.controllers;
 
 import cz.fi.muni.TACOS.dto.TemplateCreateDTO;
 import cz.fi.muni.TACOS.dto.TemplateDTO;
+import cz.fi.muni.TACOS.enums.UserRole;
 import cz.fi.muni.TACOS.exceptions.InvalidRelationEntityIdException;
 import cz.fi.muni.TACOS.facade.TemplateFacade;
 import cz.fi.muni.TACOS.rest.ApiUris;
 import cz.fi.muni.TACOS.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.TACOS.rest.interceptors.Secured;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,10 @@ public class TemplateController {
     private TemplateFacade templateFacade;
 
     @POST
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER
+    })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Long createTemplate(TemplateCreateDTO specification) {
@@ -47,6 +53,10 @@ public class TemplateController {
     }
 
     @DELETE
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER,
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void deleteTemplate(@PathParam("id") Long id) {
@@ -62,6 +72,11 @@ public class TemplateController {
     }
 
     @GET
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER,
+            UserRole.SUBMITTER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     public List<TemplateDTO> getAllTemplates() {
         log.debug("rest getAllTemplates()");
@@ -70,6 +85,11 @@ public class TemplateController {
     }
 
     @GET
+    @Secured(roles = {
+            UserRole.SUPERADMIN,
+            UserRole.PRACTITIONER,
+            UserRole.SUBMITTER
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public TemplateDTO getTemplateById(@PathParam("id") Long id) {

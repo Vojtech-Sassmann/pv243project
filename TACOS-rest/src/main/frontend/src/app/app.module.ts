@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule , NO_ERRORS_SCHEMA} from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppRoutingModule} from "./app-routing.module";
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -97,6 +97,10 @@ import { ProductsPageComponent } from './admin/products-page/products-page.compo
 import { ProductDetailPageComponent } from './components/product-detail-page/product-detail-page.component';
 import { ProductDetailAdminComponent } from './components/product-detail-page/product-detail-admin/product-detail-admin.component';
 import {MarketplaceOrderDetailComponent} from "./marketplace/marketplace-order-detail/marketplace-order-detail.component";
+import {AuthService} from "./services/auth/auth.service";
+import {ErrorInterceptor} from "./error-interceptor";
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { NotAllowedComponent } from './components/not-allowed/not-allowed.component';
 
 @NgModule({
   declarations: [
@@ -176,6 +180,8 @@ import {MarketplaceOrderDetailComponent} from "./marketplace/marketplace-order-d
     ProductsPageComponent,
     ProductDetailPageComponent,
     ProductDetailAdminComponent,
+    PageNotFoundComponent,
+    NotAllowedComponent,
   ],
   imports: [
     BrowserModule,
@@ -195,6 +201,12 @@ import {MarketplaceOrderDetailComponent} from "./marketplace/marketplace-order-d
     TemplateService,
     AttributeService,
     AttributeCategoryService,
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]

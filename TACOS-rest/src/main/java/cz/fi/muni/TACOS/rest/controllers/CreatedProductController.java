@@ -12,9 +12,13 @@ import cz.fi.muni.TACOS.facade.UserFacade;
 import cz.fi.muni.TACOS.rest.ApiUris;
 import cz.fi.muni.TACOS.rest.exceptions.InvalidParameterException;
 import cz.fi.muni.TACOS.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.TACOS.rest.interceptors.Secured;
+import cz.fi.muni.TACOS.rest.utils.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -47,7 +51,14 @@ public class CreatedProductController {
 	@Inject
 	private AttributeFacade attributeFacade;
 
+	@Resource
+	private SessionContext sessionContext;
+
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CreatedProductDTO> getAllCreatedProducts() {
 		log.debug("rest getAllCreatedProducts()");
@@ -56,6 +67,10 @@ public class CreatedProductController {
 	}
 
 	@GET
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public CreatedProductDTO findCreatedProductById(@PathParam("id") Long id) {
@@ -69,7 +84,13 @@ public class CreatedProductController {
 
 		return createdProductDTO;
 	}
+
 	@POST
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Long createCreatedProduct(CreatedProductCreateDTO specification) {
@@ -77,28 +98,21 @@ public class CreatedProductController {
 
 		validateCreatedProduct(specification);
 
-		//TODO : REMOVE THIS WHEN SECURITY IS IMPLEMENTED
-		UserDTO fakeUser = userFacade.findByEmail("fake@user.cz");
-		if (fakeUser == null) {
-			UserCreateDTO fakeUserCreate = new UserCreateDTO();
-			fakeUserCreate.setEmail("fake@user.cz");
-			fakeUserCreate.setName("fake");
-			fakeUserCreate.setSurname("user");
-			fakeUserCreate.setRole(UserRole.SUPERADMIN);
-			fakeUserCreate.setPassword("fakeuser");
-
-			userFacade.create(fakeUserCreate);
-			fakeUser = userFacade.findByEmail("fake@user.cz");
-		}
+		UserDTO user = (UserDTO) sessionContext.getContextData().get(SecurityUtils.AUTH_USER);
 
 		try {
-			return createdProductFacade.create(specification, fakeUser.getId());
+			return createdProductFacade.create(specification, user.getId());
 		} catch (InvalidRelationEntityIdException e) {
 			throw new InvalidParameterException(e);
 		}
 	}
 
 	@DELETE
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public void deleteCreatedProduct(@PathParam("id") Long id) {
@@ -114,6 +128,11 @@ public class CreatedProductController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{createdProductId}/addAttribute/{attributeId}")
 	public void addAttribute(@PathParam("createdProductId") Long createdProductId, @QueryParam("attributeId") Long attributeId) {
@@ -130,6 +149,11 @@ public class CreatedProductController {
 	}
 
 	@PUT
+	@Secured(roles = {
+			UserRole.SUPERADMIN,
+			UserRole.PRACTITIONER,
+			UserRole.SUBMITTER
+	})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{createdProductId}/removeAttribute/{attributeId}")
 	public void removeAttribute(@PathParam("createdProductId") Long createdProductId, @QueryParam("attributeId") Long attributeId) {

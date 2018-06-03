@@ -5,12 +5,13 @@ package cz.fi.muni.TACOS.rest;
  */
 public class ApiUris {
 	public static final String REST_ROOT = "/api/v1";
-	public static final String URI_ORDERS = "/orders";
-	public static final String URI_USERS = "/users";
-	public static final String URI_ATTRIBUTES = "/attributes";
-	public static final String URI_ATTRIBUTE_CATEGORIES = "/attributeCategories";
-	public static final String URI_TEMPLATES = "/templates";
-	public static final String URI_CREATED_PRODUCTS = "/createdProducts";
-	public static final String URI_PRODUCTS = "/products";
-	public static final String URI_PRODUCT_CATEGORIES = "/productCategories";
+	public static final String URI_AUTH = "/auth";
+	public static final String URI_ORDERS = URI_AUTH + "/orders";
+	public static final String URI_USERS = URI_AUTH + "/users";
+	public static final String URI_ATTRIBUTES = URI_AUTH + "/attributes";
+	public static final String URI_ATTRIBUTE_CATEGORIES = URI_AUTH + "/attributeCategories";
+	public static final String URI_TEMPLATES = URI_AUTH + "/templates";
+	public static final String URI_CREATED_PRODUCTS = URI_AUTH + "/createdProducts";
+	public static final String URI_PRODUCTS = URI_AUTH + "/products";
+	public static final String URI_PRODUCT_CATEGORIES = URI_AUTH + "/productCategories";
 }

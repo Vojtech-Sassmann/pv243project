@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Order, OrderService} from "../../services/order/order.service";
 import {UserService} from "../../services/user/user.service";
 import {Router} from "@angular/router";
-import {ModalDirective} from "angular-bootstrap-md/modals/modal.directive";
+import {ModalDirective} from "angular-bootstrap-md";
 
 @Component({
   selector: 'app-basket',
@@ -16,6 +16,9 @@ export class BasketComponent implements OnInit {
 
   order : Order;
   public loaded: boolean = false;
+
+  public waitingForStatus: boolean = true;
+  public success: boolean = false;
 
   constructor(private orderService: OrderService, private userService: UserService, private router: Router) { }
 
@@ -33,7 +36,11 @@ export class BasketComponent implements OnInit {
 
   submitOrder() {
     this.orderService.submitOrder(this.order).subscribe(() => {
-      this.showModal();
+      this.success = true;
+      this.waitingForStatus = false;
+    }, () => {
+      this.success = false;
+      this.waitingForStatus = false;
     });
   }
 

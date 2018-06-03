@@ -6,40 +6,40 @@ import {Product} from "../product/product.service";
 @Injectable()
 export class ProductCategoryService {
 
-  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/productCategories";
+  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/auth/productCategories";
 
   constructor(protected httpClient : HttpClient) { }
 
   public createProductCategory(productCategoryCreate: ProductCategoryCreate) : Observable<number>  {
-    return this.httpClient.post<number>(this.URL, productCategoryCreate,{});
+    return this.httpClient.post<number>(this.URL, productCategoryCreate,{withCredentials: true});
   }
 
   public deleteProductCategory(productCategory: ProductCategory) : Observable<number>  {
-    return this.httpClient.delete<number>( `${this.URL}/${productCategory.id}`,{});
+    return this.httpClient.delete<number>( `${this.URL}/${productCategory.id}`,{withCredentials: true});
   }
 
   public getAllProductCategories() : Observable<Array<ProductCategory>> {
-    return this.httpClient.get<Array<ProductCategory>>(this.URL, {});
+    return this.httpClient.get<Array<ProductCategory>>(this.URL, {withCredentials: true});
   }
 
   public findProductCategoryById(id: number) : Observable<ProductCategory> {
-    return this.httpClient.get<ProductCategory>(`${this.URL}/${id}`,{});
+    return this.httpClient.get<ProductCategory>(`${this.URL}/${id}`,{withCredentials: true});
   }
 
   public addSubCategory(productCategory : ProductCategory, subCategory : ProductCategory) : Observable<number> {
-    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/addSubCategory/${subCategory.id}`, {});
+    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/addSubCategory/${subCategory.id}`, null, {withCredentials: true});
   }
 
   public removeSubCategory(productCategory : ProductCategory, subCategory : ProductCategory) : Observable<number> {
-    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/removeSubCategory/${subCategory.id}`, {});
+    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/removeSubCategory/${subCategory.id}`, null, {withCredentials: true});
   }
 
   public addProduct(productCategory : ProductCategory, product : Product) : Observable<number> {
-    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/addProduct/${product.id}`, {});
+    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/addProduct/${product.id}`, null, {withCredentials: true});
   }
 
   public removeProduct(productCategory : ProductCategory, product : Product) : Observable<number> {
-    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/removeProduct/${product.id}`, {});
+    return this.httpClient.put<number>(`${this.URL}/${productCategory.id}/removeProduct/${product.id}`, null, {withCredentials: true});
   }
 }
 

@@ -1,1 +1,3 @@
-undeploy TACOS-rest.war --all-server-groups
+connect
+
+undeploy TACOS-rest.war --all-relevant-server-groups

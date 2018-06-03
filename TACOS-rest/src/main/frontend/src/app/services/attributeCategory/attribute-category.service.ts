@@ -6,24 +6,24 @@ import {Attribute} from "../attribute/attribute.service";
 @Injectable()
 export class AttributeCategoryService {
 
-  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/attributeCategories";
+  private readonly URL = "http://localhost:8080/TACOS-rest/api/v1/auth/attributeCategories";
 
   constructor(protected httpClient:HttpClient) { }
 
   public createAttributeCategory(attributeCategoryCreate: AttributeCategoryCreate) : Observable<number>  {
-    return this.httpClient.post<number>(this.URL, attributeCategoryCreate,{});
+    return this.httpClient.post<number>(this.URL, attributeCategoryCreate,{withCredentials: true});
   }
 
   public deleteAttributeCategory(attributeCategory: AttributeCategory) : Observable<number>  {
-    return this.httpClient.delete<number>( `${this.URL}/${attributeCategory.id}`,{});
+    return this.httpClient.delete<number>( `${this.URL}/${attributeCategory.id}`,{withCredentials: true});
   }
 
   public getAllAttributeCategories() : Observable<Array<AttributeCategory>> {
-    return this.httpClient.get<Array<AttributeCategory>>(this.URL, {});
+    return this.httpClient.get<Array<AttributeCategory>>(this.URL, {withCredentials: true});
   }
 
   public findAttributeCategoryById(id: number) : Observable<AttributeCategory> {
-    return this.httpClient.get<AttributeCategory>(`${this.URL}/${id}`,{});
+    return this.httpClient.get<AttributeCategory>(`${this.URL}/${id}`,{withCredentials: true});
   }
 }
 
