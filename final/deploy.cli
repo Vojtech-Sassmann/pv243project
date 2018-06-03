@@ -1,0 +1,3 @@
+connect
+
+deploy target/TACOS-rest.war --all-server-groups
