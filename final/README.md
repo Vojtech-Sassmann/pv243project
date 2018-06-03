@@ -13,6 +13,9 @@ Wiki: https://github.com/LizzardCorp/pv243project/wiki
 
 # Running the project
 
+Run wildfly
+`$JBOSS_HOME/bin/domain.sh`
+
 Deploy application
 `$JBOSS_HOME/bin/jboss-cli.sh --file=deploy.cli`
 
