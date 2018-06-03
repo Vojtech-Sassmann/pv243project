@@ -35,7 +35,7 @@ export class AddProductComponent implements OnInit {
     this.formGroup = this.fb.group({
       nameCtrl: ['', Validators.required],
     });
-    this.productCategoryService.getAllProductCategories().subscribe(categories => this.categories = categories);
+    this.productCategoryService.getLeafProductCategories().subscribe(categories => this.categories = categories);
     this.templateService.getAllTemplates().subscribe(templates => this.templates = templates);
   }
 

@@ -8,6 +8,7 @@ import cz.fi.muni.TACOS.service.ProductCategoryService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
@@ -42,5 +43,10 @@ public class ProductCategoryServiceImpl extends AbstractEntityService<ProductCat
     @Override
     public void removeProductFromCategory(ProductCategory category, Product product) {
         category.removeProduct(product);
+    }
+
+    @Override
+    public List<ProductCategory> getLeafCategories() {
+        return productCategoryDao.getLeafCategories();
     }
 }

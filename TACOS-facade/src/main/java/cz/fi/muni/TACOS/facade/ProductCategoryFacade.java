@@ -4,6 +4,8 @@ import cz.fi.muni.TACOS.dto.ProductCategoryCreateDTO;
 import cz.fi.muni.TACOS.dto.ProductCategoryDTO;
 import cz.fi.muni.TACOS.exceptions.InvalidRelationEntityIdException;
 
+import java.util.List;
+
 /**
  * Facade Interface for ProductCategory entity.
  *
@@ -53,4 +55,11 @@ public interface ProductCategoryFacade extends Facade<ProductCategoryDTO> {
      * @param productId
      */
     void removeProductFromCategory(Long categoryId, Long productId);
+
+    /**
+     * Gets all product categories which don't have subCategories
+     *
+     * @return List of product categories DTO
+     */
+    List<ProductCategoryDTO> getLeafCategories();
 }

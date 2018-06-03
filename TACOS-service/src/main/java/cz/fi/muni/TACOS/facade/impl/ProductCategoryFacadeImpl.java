@@ -58,6 +58,11 @@ public class ProductCategoryFacadeImpl implements ProductCategoryFacade {
     }
 
     @Override
+    public List<ProductCategoryDTO> getLeafCategories() {
+        return beanMappingService.mapTo(productCategoryService.getLeafCategories(), ProductCategoryDTO.class);
+    }
+
+    @Override
     public Long createSubCategory(ProductCategoryCreateDTO entity, Long parentCategoryId) {
         ProductCategory productCategory = beanMappingService.mapTo(entity, ProductCategory.class);
         ProductCategory parentCategory = productCategoryService.findById(parentCategoryId);

@@ -13,13 +13,13 @@ export class ProductCategoryDetailPageComponent implements OnInit {
   productCategoryId: number;
   public loaded: boolean = false;
 
-  constructor(private productCategoryService: ProductCategoryService, private route: ActivatedRoute) {
-    this.route.params.subscribe(res => this.productCategoryId = res.id);
-
-  }
+  constructor(private productCategoryService: ProductCategoryService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.loadProductCategory();
+    this.route.params.subscribe(res => {
+      this.productCategoryId = res.id;
+      this.loadProductCategory();
+    });
   }
 
   loadProductCategory() {

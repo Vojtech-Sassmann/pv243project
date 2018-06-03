@@ -3,6 +3,8 @@ package cz.fi.muni.TACOS.service;
 import cz.fi.muni.TACOS.persistence.entity.Product;
 import cz.fi.muni.TACOS.persistence.entity.ProductCategory;
 
+import java.util.List;
+
 /**
  * @author Vojtech Sassmann <vojtech.sassmann@gmail.com>
  */
@@ -39,4 +41,11 @@ public interface ProductCategoryService extends EntityService<ProductCategory> {
      * @param product product
      */
     void removeProductFromCategory(ProductCategory category, Product product);
+
+    /**
+     * Gets all product categories which don't have subCategories
+     *
+     * @return List of product categories
+     */
+    List<ProductCategory> getLeafCategories();
 }

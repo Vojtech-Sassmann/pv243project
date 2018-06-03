@@ -57,6 +57,17 @@ public class ProductCategoryDaoImpl extends AbstractDao<ProductCategory> impleme
     }
 
     @Override
+    public List<ProductCategory> getLeafCategories() {
+        try {
+            return em.createQuery("select c from ProductCategory c where c.subCategories IS EMPTY ",
+                    ProductCategory.class)
+                    .getResultList();
+        } catch (NoResultException nrf) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public List<ProductCategory> getAll() {
         try {
             return em.createQuery("select c from ProductCategory c where parentCategory IS NULL",

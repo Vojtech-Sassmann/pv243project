@@ -22,6 +22,10 @@ export class ProductCategoryService {
     return this.httpClient.get<Array<ProductCategory>>(this.URL, {withCredentials: true});
   }
 
+  public getLeafProductCategories() : Observable<Array<ProductCategory>> {
+    return this.httpClient.get<Array<ProductCategory>>(`${this.URL}/filter/leaf`, {});
+  }
+
   public findProductCategoryById(id: number) : Observable<ProductCategory> {
     return this.httpClient.get<ProductCategory>(`${this.URL}/${id}`,{withCredentials: true});
   }
