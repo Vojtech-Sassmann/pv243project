@@ -111,28 +111,28 @@ public class SampleData {
 		user.setName("Regular");
 		user.setSurname("User");
 		user.setPassword("password");
-		user.setEmail("somerandomregularuser@worldofjava.com");
+		user.setEmail("submitter@email.com");
 		user.setRole(UserRole.SUBMITTER);
 		userId1 = userFacade.create(user);
 
 		user.setName("Name");
 		user.setSurname("Surname");
 		user.setPassword("password");
-		user.setEmail("email@worldofjava.com");
+		user.setEmail("email@email.com");
 		user.setRole(UserRole.SUPERADMIN);
 		userId2 = userFacade.create(user);
 
 		user.setName("Admin");
 		user.setSurname("User");
 		user.setPassword("password");
-		user.setEmail("ruser@worldofjava.com");
+		user.setEmail("admin@email.com");
 		user.setRole(UserRole.SUPERADMIN);
 		userId3 = userFacade.create(user);
 
 		user.setName("Practitioner");
 		user.setSurname("User");
 		user.setPassword("password");
-		user.setEmail("somerandomregularuser@email.com");
+		user.setEmail("practitioner@email.com");
 		user.setRole(UserRole.PRACTITIONER);
 		userId4 = userFacade.create(user);
 	}

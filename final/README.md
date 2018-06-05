@@ -1,7 +1,7 @@
 # PV243 team project - TACOS
 The amazing creative ordering system
 
-A Java school team project.
+A JavaEE school team project.
 
 Team members: 
 * Vojtěch Sassmann
@@ -24,24 +24,24 @@ Then navigate to url
 
 You can sing up or use one of pre-created accounts: 
 
-regular: 
+submitter: 
 
 ```
-username: somerandomregularuser@worldofjava.com
+username: submitter@email.com
 password: password
 ```
 
 admin: 
 
 ```
-username: ruser@worldofjava.com
+username: admin@email.com
 password: password
 ```
 
 practitioner:
 
 ```
-username: somerandomregularuser@email.com
+username: practitioner@email.com
 password: password
 ```
 
