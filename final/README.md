@@ -13,8 +13,12 @@ Wiki: https://github.com/LizzardCorp/pv243project/wiki
 
 # Running the project
 
-Run wildfly
+Run wildfly in domain mode 
 `$JBOSS_HOME/bin/domain.sh`
+
+After startup run configuration script
+`$JBOSS_HOME/bin/jboss-cli.sh --file=configure.cli`
+If you see message like this `Failed to establish connection in 6022ms` just ignore it.
 
 Deploy application
 `$JBOSS_HOME/bin/jboss-cli.sh --file=deploy.cli`
